@@ -29,20 +29,18 @@ typing_print() {
     echo ""
 }
 
-# Affiche un spinner pendant une durée simulée
-spinner_simulated() {
-    local duration=$1 # Durée en secondes
-    local message="$2"
+# Affiche un spinner pendant l'exécution d'une commande
+spinner() {
+    local pid=$!
     local delay=0.1
     local spinstr="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
     local i=0
-    local start_time=$(date +%s)
     tput civis # Cacher le curseur
 
-    while (( $(date +%s) - start_time < duration )); do
+    while ps -p $pid > /dev/null; do
         i=$(( (i + 1) % ${#spinstr} ))
         clear_line
-        printf "${CYAN}[ %c ]${NC} %s" "${spinstr:$i:1}" "$message"
+        printf "${CYAN}[ %c ]${NC} %s" "${spinstr:$i:1}" "$1"
         sleep "$delay"
     done
     tput cnorm # Afficher le curseur
@@ -128,130 +126,204 @@ typing_print "   ║          Suivez @0xDropxtor           ║" 0.01
 typing_print "   ╚═══════════════════════════════════════╝" 0.01
 echo -e "${NC}"
 sleep 0.5
-typing_print "${YELLOW}         Multi-Chromium sur Android (Termux + QEMU)${NC}" 0.02
-typing_print "${MAGENTA}                Exécutez, explorez, innovez. 🚀${NC}" 0.02
+typing_print "${YELLOW}         Les saints bénissent même les Sybilles.${NC}" 0.02
+typing_print "${MAGENTA}                Dieu aime tout le monde.${NC}" 0.02
 sleep 1
 
-typing_print "${CYAN}>> Démarrage Rapide : Configuration de vos navigateurs Chromium...${NC}" 0.03
+typing_print "${CYAN}>> Initialisation de la configuration multi-conteneurs Chromium...${NC}" 0.03
 sleep 1
 
-info_message "Ce script simule les étapes à suivre *dans votre VM Debian*."
-info_message "Assurez-vous d'être connecté à votre VM Debian via SSH ou directement via QEMU. 🖥️"
-sleep 2
-
-# Section Prérequis (Informative)
-typing_print "${BLUE}⚙️ Prérequis (pour votre configuration Android/QEMU) :${NC}" 0.02
-info_message "  - Téléphone Android avec Termux installé. 📱"
-info_message "  - Au moins 8 Go de stockage, 4 Go de RAM, système QEMU installé. 💪"
-info_message "  - Une image de VM Debian (debian-11.qcow2). 💾"
-info_message "  - Redirection de ports activée dans QEMU. 🔗"
-sleep 2
-
-typing_print "${BLUE}🔌 Commande QEMU (pour démarrer votre VM Debian) :${NC}" 0.02
-echo -e "${YELLOW}```bash"
-echo -e "qemu-system-x86_64 \\"
-echo -e "  -m 2048 \\"
-echo -e "  -smp 2 \\"
-echo -e "  -drive file=debian-11.qcow2,format=qcow2 \\"
-echo -e "  -net nic \\"
-echo -e "  -net user,hostfwd=tcp::2222-:22,hostfwd=tcp::3010-:3010,hostfwd=tcp::3011-:3011 \\"
-echo -e "  -nographic"
-echo -e "```${NC}"
-info_message "⚠️ Seulement 1 ou 2 instances Chromium sont recommandées en raison de la RAM limitée sur Android. Soyez sage ! 🧠"
-sleep 3
-
-typing_print "${GREEN}--- Démarrage de la configuration dans votre VM Debian ---${NC}" 0.03
-sleep 1
-
-# Étape 1: Mise à jour et installation de Git
-info_message "Étape 1/4 : Mise à jour des paquets et installation de Git. 📦"
-spinner_simulated 3 "Exécution de 'apt update && sudo apt install -y git'..."
-success_animation "Git est prêt ! 🚀"
-sleep 1
-
-# Étape 2: Clonage du dépôt
-info_message "Étape 2/4 : Clonage du dépôt Multi-Chromium. 🐙"
-spinner_simulated 4 "Exécution de 'git clone https://github.com/emmogrin/multi-chromium'..."
-success_animation "Dépôt cloné avec succès ! ✨"
-sleep 1
-
-# Étape 3: Navigation et permissions
-info_message "Étape 3/4 : Accès au répertoire et permissions. 📁"
-spinner_simulated 1 "Exécution de 'cd multi-chromium'..."
-spinner_simulated 1 "Exécution de 'chmod +x multi-chromium.sh'..."
-success_animation "Permissions ajustées. 🔓"
-sleep 1
-
-# Étape 4: Lancement du script multi-chromium.sh (Simulation d'interaction )
-info_message "Étape 4/4 : Lancement du script de configuration Chromium. 🪄"
-typing_print "${YELLOW}Simulons l'exécution de './multi-chromium.sh 1' et ses invites...${NC}" 0.02
-sleep 1
-
-# Simulation des invites du script multi-chromium.sh
+# Demander combien de conteneurs exécuter
 clear_line
-read -p "$(echo -e "${CYAN}Combien de conteneurs Chromium voulez-vous exécuter ? (par défaut : 10, max : 20) : ${NC}")" SIM_INSTANCE_COUNT
-SIM_INSTANCE_COUNT=${SIM_INSTANCE_COUNT:-10}
-info_message "Vous avez choisi : $SIM_INSTANCE_COUNT conteneurs."
+read -p "$(echo -e "${YELLOW}Combien de conteneurs Chromium voulez-vous exécuter ? (par défaut : 10, max : 20) : ${NC}")" INSTANCE_COUNT
+INSTANCE_COUNT=${INSTANCE_COUNT:-10}
+if [[ $INSTANCE_COUNT -gt 20 ]]; then
+  INSTANCE_COUNT=20
+  error_animation "Limité à 20 conteneurs pour éviter la surcharge."
+  sleep 1
+fi
+info_message "Nombre de conteneurs défini à : $INSTANCE_COUNT"
 sleep 0.5
 
+# Demander si la connexion par mot de passe doit être activée
 clear_line
-read -p "$(echo -e "${CYAN}Voulez-vous protéger le navigateur par un mot de passe ? (o/n) : ${RED}(Entrez 'n' pour ignorer la protection)${NC}")" SIM_USE_PASSWORD
-SIM_USE_PASSWORD=${SIM_USE_PASSWORD:-n}
-if [[ "$SIM_USE_PASSWORD" == "y" || "$SIM_USE_PASSWORD" == "Y" ]]; then
-    info_message "Protection par mot de passe activée (simulé)."
+read -p "$(echo -e "${YELLOW}Voulez-vous protéger le navigateur par un mot de passe ? (o/n) : ${NC}")" USE_PASSWORD
+
+if [[ "$USE_PASSWORD" == "y" || "$USE_PASSWORD" == "Y" ]]; then
+  clear_line
+  read -p "$(echo -e "${YELLOW}Entrez la base du nom d'utilisateur Chromium (ex : utilisateur) : ${NC}")" BASE_USER
+  clear_line
+  read -p "$(echo -e "${YELLOW}Entrez le mot de passe Chromium : ${NC}")" CHROME_PASS
+  success_animation "Protection par mot de passe activée."
 else
-    info_message "Protection par mot de passe ignorée (simulé). Simplicité avant tout ! ✨"
+  info_message "Protection par mot de passe désactivée."
 fi
 sleep 0.5
 
 clear_line
-read -p "$(echo -e "${CYAN}Entrez l'URL de la page d'accueil (par défaut : about:blank) : ${NC}")" SIM_HOMEPAGE
-SIM_HOMEPAGE=${SIM_HOMEPAGE:-about:blank}
-info_message "Page d'accueil définie à : $SIM_HOMEPAGE (simulé)."
+read -p "$(echo -e "${YELLOW}Entrez l'URL de la page d'accueil (par défaut : about:blank) : ${NC}")" HOMEPAGE
+HOMEPAGE=${HOMEPAGE:-about:blank}
+info_message "Page d'accueil définie à : $HOMEPAGE"
 sleep 0.5
 
 clear_line
-read -p "$(echo -e "${CYAN}Exécutez-vous ceci sur un VPS (o/n) ? ${RED}(Entrez 'n' car vous êtes sur Android/QEMU)${NC}")" SIM_VPS
-SIM_VPS=${SIM_VPS:-n}
-if [[ "$SIM_VPS" == "y" || "$SIM_VPS" == "Y" ]]; then
-    error_animation "Attention ! Vous devriez entrer 'n' pour un environnement Android/QEMU. 🚧"
+read -p "$(echo -e "${YELLOW}Exécutez-vous ceci sur un VPS (o/n) ? ${NC}")" VPS
+if [[ "$VPS" == "y" || "$VPS" == "Y" ]]; then
+    info_message "Détection de l'environnement VPS."
 else
-    info_message "Détection de l'environnement : Non-VPS (simulé). Parfait pour Android ! ✅"
+    info_message "Détection de l'environnement local."
 fi
+sleep 0.5
+
+# Étape 0 : Installer les outils si nécessaire
+info_message "Mise à jour des paquets système..."
+(sudo apt update -y) & spinner "Mise à jour des paquets système..."
+success_animation "Mise à jour terminée."
+
+info_message "Installation des dépendances de base (lsb-release)..."
+(sudo apt install -y lsb-release) & spinner "Installation de lsb-release..."
+success_animation "lsb-release installé."
+
+if ! command -v curl &> /dev/null || ! command -v wget &> /dev/null || ! command -v dig &> /dev/null; then
+  info_message "Installation de curl, wget et dnsutils (dig)..."
+  (sudo apt install curl wget dnsutils -y) & spinner "Installation des outils réseau..."
+  success_animation "Outils réseau installés."
+else
+  success_animation "Outils réseau (curl, wget, dig) déjà installés."
+fi
+sleep 0.5
+
+# Détection automatique du fuseau horaire
+info_message "Détection du fuseau horaire..."
+TZ=$(timedatectl show --value --property=Timezone 2>/dev/null)
+if [[ -z "$TZ" ]]; then
+  TZ="Etc/UTC"
+  error_animation "Impossible de détecter automatiquement le fuseau horaire. Par défaut : UTC."
+else
+  success_animation "Fuseau horaire détecté : $TZ"
+fi
+sleep 0.5
+
+# Étape 1 : Installer Docker si non présent
+if ! command -v docker &> /dev/null; then
+  info_message "Docker non trouvé. Démarrage de l'installation de Docker..."
+  (sudo apt-get install -y ca-certificates curl gnupg) & spinner "Installation des prérequis Docker..."
+  (sudo install -m 0755 -d /etc/apt/keyrings) & spinner "Création du répertoire de clés Docker..."
+  (curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg ) & spinner "Téléchargement de la clé GPG Docker..."
+  (sudo chmod a+r /etc/apt/keyrings/docker.gpg) & spinner "Définition des permissions pour la clé GPG Docker..."
+
+  (echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+    https://download.docker.com/linux/ubuntu $(lsb_release -cs ) stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null) & spinner "Ajout du dépôt Docker..."
+
+  (sudo apt update -y) & spinner "Mise à jour des paquets après ajout du dépôt Docker..."
+  (sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin) & spinner "Installation des composants Docker..."
+  success_animation "Docker a été installé avec succès."
+else
+  success_animation "Docker est déjà installé. Installation ignorée."
+fi
+sleep 0.5
+
+# Étape 2 : Créer le répertoire de base
+info_message "Création du répertoire de base pour Chromium..."
+mkdir -p ~/chromium/multi
+cd ~/chromium/multi
+success_animation "Répertoire ~/chromium/multi créé et sélectionné."
+sleep 0.5
+
+# Étape 3 : Compter les conteneurs existants pour continuer à partir du dernier index
+info_message "Vérification des conteneurs Chromium existants..."
+existing_count=$(docker ps -a --format '{{.Names}}' | grep -c '^chromium[0-9]\+$')
+start_index=$existing_count
+end_index=$((existing_count + INSTANCE_COUNT - 1))
+info_message "Démarrage de la création à l'index : $start_index"
+sleep 0.5
+
+# Étape 4 : Créer les fichiers docker-compose
+info_message "Génération des fichiers docker-compose..."
+for ((i=start_index; i<=end_index; i++)); do
+  HTTP_PORT=$((3010 + i * 2))
+  HTTPS_PORT=$((3011 + i * 2))
+  CONFIG_DIR="/root/chromium/multi/config${i}"
+  mkdir -p "$CONFIG_DIR"
+
+  USERNAME="${BASE_USER}${i}"
+
+  cat > docker-compose-${i}.yaml <<EOF
+services:
+  chromium${i}:
+    image: lscr.io/linuxserver/chromium:latest
+    container_name: chromium${i}
+    security_opt:
+      - seccomp:unconfined
+    environment:
+EOF
+
+  if [[ "$USE_PASSWORD" == "y" || "$USE_PASSWORD" == "Y" ]]; then
+    echo "      - CUSTOM_USER=${USERNAME}" >> docker-compose-${i}.yaml
+    echo "      - PASSWORD=${CHROME_PASS}" >> docker-compose-${i}.yaml
+  fi
+
+  cat >> docker-compose-${i}.yaml <<EOF
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - CHROME_CLI=${HOMEPAGE}
+    volumes:
+      - ${CONFIG_DIR}:/config
+    ports:
+      - ${HTTP_PORT}:3000
+      - ${HTTPS_PORT}:3001
+    shm_size: "1gb"
+    restart: unless-stopped
+EOF
+  clear_line
+  printf "${CYAN}  Fichier docker-compose-${i}.yaml créé.${NC}\n"
+  sleep 0.05 # Petite pause pour l'effet visuel
+done
+success_animation "Tous les fichiers docker-compose ont été générés."
 sleep 1
 
-progress_bar 5 "Déploiement des conteneurs Chromium (simulé)..."
-success_animation "Conteneurs Chromium déployés ! 🎉"
+# Étape 5 : Lancer les nouveaux conteneurs
+info_message "Lancement des nouveaux conteneurs Chromium..."
+for ((i=start_index; i<=end_index; i++)); do
+  (docker compose -f docker-compose-${i}.yaml up -d) & spinner "Lancement de chromium${i}..."
+  success_animation "Conteneur chromium${i} lancé."
+done
+success_animation "Tous les conteneurs Chromium ont été lancés."
 sleep 1
 
-# Section Accès Chromium
-typing_print "\n${GREEN}🌐 Accéder à Chromium :${NC}" 0.02
-info_message "Une fois la configuration réelle terminée, accédez à vos navigateurs depuis Android."
-info_message "Depuis votre navigateur Android (Chrome ou Brave), visitez : 📲"
-echo -e "${YELLOW}  http://localhost:3010"
-echo -e "  https://localhost:3011${NC}"
-info_message "Ces ports sont redirigés de QEMU vers Android. Magie ! 🪄"
-sleep 2
+# Étape 6 : Détecter l'adresse IP
+info_message "Détection de l'adresse IP d'accès..."
+if [[ "$VPS" == "y" || "$VPS" == "Y" ]]; then
+  if command -v curl &> /dev/null; then
+    IP=$(curl -s ifconfig.me)
+  elif command -v wget &> /dev/null; then
+    IP=$(wget -qO- https://ifconfig.me )
+  elif command -v dig &> /dev/null; then
+    IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+  else
+    IP="localhost"
+  fi
+else
+  IP="localhost"
+fi
+success_animation "Adresse IP détectée : $IP"
+sleep 0.5
 
-# Section Nettoyage
-typing_print "\n${GREEN}🧹 Nettoyer les Conteneurs Chromium :${NC}" 0.02
-info_message "Pour tout effacer (conteneurs et dossiers de config ) : 🗑️"
-echo -e "${YELLOW}  ./cleanup.sh${NC}"
+# Étape 7 : Afficher les URL d'accès
+echo -e "\n${GREEN}>> Tous les $INSTANCE_COUNT conteneurs Chromium sont maintenant en cours d'exécution !${NC}"
+typing_print "\n${CYAN}📡 URL d'accès :${NC}" 0.03
+sleep 0.5
+for ((i=start_index; i<=end_index; i++)); do
+  HTTP_PORT=$((3010 + i * 2))
+  HTTPS_PORT=$((3011 + i * 2))
+  clear_line
+  typing_print "${YELLOW}chromium${i} → ${BLUE}http://$IP:$HTTP_PORT/${NC}  |  ${BLUE}https://$IP:$HTTPS_PORT/${NC}" 0.01
+  sleep 0.05 # Petite pause pour l'effet visuel
+done
 sleep 1
-
-# Section Ajouter Plus de Conteneurs
-typing_print "\n${GREEN}🧩 Ajouter Plus de Conteneurs Plus Tard :${NC}" 0.02
-info_message "Pour ajouter une instance Chromium supplémentaire (sans écrasement) : ➕"
-echo -e "${YELLOW}  ./multi-chromium.sh 1${NC}"
-sleep 1
-
-# Section Notes
-typing_print "\n${GREEN}💡 Notes Importantes :${NC}" 0.02
-info_message "  - Le premier téléchargement peut prendre du temps en raison de la taille de l'image. La patience est une vertu. ⏳"
-info_message "  - Vous pouvez exécuter en toute sécurité 1 à 2 conteneurs sur une VM Termux. Restez zen. 🧘"
-info_message "  - Plus que cela peut provoquer des plantages ou des ralentissements. Vraiment, mon frère 😂"
-info_message "  - Ne vous inquiétez pas 😉, il redémarre automatiquement, il n'y a pas besoin de code de démarrage. L'efficacité, c'est la clé. 🔑"
-sleep 3
 
 # 🌟 Bénédiction de clôture animée
 echo -e "\n${GREEN}🌟 Dropxtor bénit votre voyage de raccourcis.${NC}"
@@ -260,14 +332,13 @@ echo -e "${MAGENTA}🛋️ Restez paresseux.${NC}"
 sleep 1
 
 # Barre de progression finale pour la "finalisation"
-progress_bar 3 "Simulation de la configuration terminée..."
+progress_bar 3 "Finalisation de la configuration"
 sleep 0.5
 
 # Message de fin stylisé
 echo -e "\n${WHITE}╔═══════════════════════════════════════════════════╗${NC}"
 echo -e "${WHITE}║                                                   ║${NC}"
-echo -e "${WHITE}║   ${GREEN}🎉 Simulation terminée avec succès ! 🎉${NC}   ║${NC}"
+echo -e "${WHITE}║   ${GREEN}🎉 Configuration terminée avec succès ! 🎉${NC}   ║${NC}"
 echo -e "${WHITE}║                                                   ║${NC}"
 echo -e "${WHITE}╚═══════════════════════════════════════════════════╝${NC}"
 sleep 1
-typing_print "${CYAN}Vous êtes maintenant prêt à exécuter les commandes réelles dans votre VM Debian ! Bonne chance ! 👍${NC}" 0.02
