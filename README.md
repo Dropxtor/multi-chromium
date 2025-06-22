@@ -50,7 +50,7 @@ Ouvrez/copiez l'une d'elles dans votre navigateur local (Chrome ou Brave).
 
 ---
 
-##  Nettoyer Tous les Conteneurs Chromium
+##   ☁️ Nettoyer Tous les Conteneurs Chromium
 
 "Un espace propre est un esprit clair." ✨
 
@@ -87,7 +87,7 @@ docker start chromium0        # démarrer un conteneur
 
 ---
 
-## 🧪 Vérifier les Conteneurs en Cours d'Exécution
+##  🕵️  Vérifier les Conteneurs en Cours d'Exécution
 
 ```bash
 docker ps
@@ -111,7 +111,7 @@ Chaque conteneur obtient son propre dossier de configuration isolé.
 
 ---
 
-### Optionnel
+### 🗒️ Optionnel
 
 ## Afficher les Logs des Conteneurs
 
@@ -139,10 +139,5 @@ Utile pour déboguer les problèmes de connexion, vérifier l'activité du navig
 
 
 Credit a emmogrin
-
-
-
-![Matrix Rain Effect](https://private-us-east-1.manuscdn.com/sessionFile/nuGMb7wYgP9DC09pfmBXtd/sandbox/ZQ4DpeCeD3zXFehAzLsmq8-images_1750621832852_na1fn_L2hvbWUvdWJ1bnR1L3VwbG9hZC9zZWFyY2hfaW1hZ2VzL2Frb1RRTk1uTXNWeA.gif?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvbnVHTWI3d1lnUDlEQzA5cGZtQlh0ZC9zYW5kYm94L1pRNERwZUNlRDN6WEZlaEF6THNtcTgtaW1hZ2VzXzE3NTA2MjE4MzI4NTJfbmExZm5fTDJodmJXVXZkV0oxYm5SMUwzVndiRzloWkM5elpXRnlZMmhmYVcxaFoyVnpMMkZyYjFSUlRrMXVUWE5XZUEuZ2lmIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzY3MjI1NjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=stab8aZkSaXW6~e4ZRtNnPcx-93tSvYiq-hYm2hGHNXnCzDotVC0rLyDIEUcLsl4l8yIP5lZLrAH~U31cEc8~onMeSf5rok3~PxRiFCbBTp9w0FNw4Z0~HFYHEIsbFCHHwuw9y7kqeLkm7XKTbTaKKTUXO2n-IddP8X8Y-v-XS5akiAgiVcKs3-5PyJI4tcbTOau-2NukIMWCHre7M5B68EnJ0jFOQGcorZNBR2PfrkJcxVM1B1OtahnNsp8~S6~8PgrkyGiAQxpIz60RbwKDRL2hmhj2BSd0eB6FD01k6t1NFLBQYDPPcwZGj9LQwTq6bggDJ-IfZSV~6ddR3M4vw__)
-
 
 
