@@ -22,7 +22,7 @@ Lancez plusieurs conteneurs Chromium (jusqu'à 20) sur votre VPS Linux avec conn
 
 ```bash
 sudo apt update && sudo apt install -y git
-git clone https://github.com/emmogrin/multi-chromium
+git clone https://github.com/Dropxtor/multi-chromium
 cd multi-chromium
 chmod +x multi-chromium.sh
 ./multi-chromium.sh 5
