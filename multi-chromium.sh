@@ -149,7 +149,7 @@ sleep 0.5
 clear_line
 read -p "$(echo -e "${YELLOW}Voulez-vous protéger le navigateur par un mot de passe ? (o/n) : ${NC}")" USE_PASSWORD
 
-if [[ "$USE_PASSWORD" == "y" || "$USE_PASSWORD" == "Y" ]]; then
+if [[ "$USE_PASSWORD" == "o" || "$USE_PASSWORD" == "O" ]]; then
   clear_line
   read -p "$(echo -e "${YELLOW}Entrez la base du nom d'utilisateur Chromium (ex : utilisateur) : ${NC}")" BASE_USER
   clear_line
