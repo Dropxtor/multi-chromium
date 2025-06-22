@@ -168,7 +168,7 @@ sleep 0.5
 
 clear_line
 read -p "$(echo -e "${YELLOW}Exécutez-vous ceci sur un VPS (o/n) ? ${NC}")" VPS
-if [[ "$VPS" == "y" || "$VPS" == "Y" ]]; then
+if [[ "$VPS" == "o" || "$VPS" == "O" ]]; then
     info_message "Détection de l'environnement VPS."
 else
     info_message "Détection de l'environnement local."
