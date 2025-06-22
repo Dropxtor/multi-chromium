@@ -31,9 +31,9 @@ chmod +x multi-chromium.sh
 Répondez aux invites interactivement :
 
 *   Nombre d'instances (jusqu'à 20) [plus comme 20 Chromiums séparés]
-*   Protection par mot de passe ? (y ou n)
+*   Protection par mot de passe ? (o ou n)
 *   URL de la page d'accueil (vous pouvez dire google.com ou laisser vide)
-*   VPS ? → Répondez `y`
+*   VPS ? → Répondez `o`
 
 ---
 
