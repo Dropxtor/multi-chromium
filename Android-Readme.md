@@ -65,7 +65,7 @@ Une fois dans votre VM Debian (via SSH ou directement via QEMU), suivez ces éta
 
 2.  **Clonage du dépôt et exécution du script :**
     ```bash
-    git clone https://github.com/emmogrin/multi-chromium
+    git clone https://github.com/Dropxtor/multi-chromium-fr
     cd multi-chromium
     chmod +x multi-chromium.sh
     ./multi-chromium.sh 1
