@@ -55,6 +55,7 @@ Ouvrez/copiez l'une d'elles dans votre navigateur local (Chrome ou Brave).
 "Un espace propre est un esprit clair." ✨
 
 ```bash
+chmod +x cleanup.sh
 ./cleanup.sh
 ```
 
