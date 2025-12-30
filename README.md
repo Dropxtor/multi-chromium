@@ -43,10 +43,13 @@ Répondez aux invites interactivement :
 
 Après la configuration, le script affichera des URL comme :
 
-*   `chromium0` → `http://votre_ip_vps:3010/` | `https://votre_ip_vps:3011/`
-*   `chromium1` → `http://votre_ip_vps:3012/` | `https://votre_ip_vps:3013/`
+*   `chromium0` → `https://votre_ip_vps:3011/` (HTTPS - **recommandé pour l'interface visuelle**)
+*   `chromium1` → `https://votre_ip_vps:3013/` (HTTPS - **recommandé pour l'interface visuelle**)
 
-Ouvrez/copiez l'une d'elles dans votre navigateur local (Chrome ou Brave).
+**⚠️ Important :** L'interface visuelle de Chromium fonctionne correctement uniquement avec HTTPS (ports 3011, 3013, 3015, etc.). 
+Les ports HTTP (3010, 3012, 3014, etc.) ne supportent pas l'interface visuelle complète en raison des restrictions de sécurité du navigateur.
+
+Ouvrez/copiez l'URL HTTPS dans votre navigateur local (Chrome ou Brave). Acceptez l'avertissement de certificat auto-signé si nécessaire.
 
 ---
 

@@ -315,12 +315,13 @@ sleep 0.5
 # Étape 7 : Afficher les URL d'accès
 echo -e "\n${GREEN}>> Tous les $INSTANCE_COUNT conteneurs Chromium sont maintenant en cours d'exécution !${NC}"
 typing_print "\n${CYAN}📡 URL d'accès :${NC}" 0.03
+typing_print "${YELLOW}⚠️  Utilisez HTTPS pour l'interface visuelle (HTTP ne fonctionne pas correctement)${NC}" 0.02
 sleep 0.5
 for ((i=start_index; i<=end_index; i++)); do
   HTTP_PORT=$((3010 + i * 2))
   HTTPS_PORT=$((3011 + i * 2))
   clear_line
-  typing_print "${YELLOW}chromium${i} → ${BLUE}http://$IP:$HTTP_PORT/${NC}  |  ${BLUE}https://$IP:$HTTPS_PORT/${NC}" 0.01
+  typing_print "${YELLOW}chromium${i} → ${GREEN}https://$IP:$HTTPS_PORT/${NC} ${CYAN}(recommandé)${NC}  |  ${BLUE}http://$IP:$HTTP_PORT/${NC} ${RED}(non-visuel)${NC}" 0.01
   sleep 0.05 # Petite pause pour l'effet visuel
 done
 sleep 1
