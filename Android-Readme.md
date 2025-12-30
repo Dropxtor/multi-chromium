@@ -85,8 +85,10 @@ Une fois dans votre VM Debian (via SSH ou directement via QEMU), suivez ces éta
 
 Pour profiter de vos nouveaux navigateurs, ouvrez simplement votre navigateur Android préféré (Chrome ou Brave) et visitez :
 
--   `http://localhost:3010`
--   `https://localhost:3011`
+-   `https://localhost:3011` (**recommandé** - interface visuelle complète)
+-   `http://localhost:3010` (ne supporte pas l'interface visuelle)
+
+**⚠️ Important :** Utilisez l'URL HTTPS pour accéder à l'interface visuelle de Chromium. Le port HTTP ne fonctionne pas correctement pour l'affichage visuel en raison des restrictions de sécurité du navigateur.
 
 Grâce à la redirection de port de Termux, ces adresses vous mèneront directement à vos instances Chromium depuis QEMU. C\`est magique ! ✨
 
